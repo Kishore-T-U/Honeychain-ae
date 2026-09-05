@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-comb-700/20;
+  }
+  ::selection {
+    @apply bg-amber-400/40;
+  }
+  :focus-visible {
+    outline: 2px solid theme("colors.amber.500");
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* A record in the evidence ledger — hairline rule, no shadow, no
+     border-radius. The visual language is a paper ledger, not a SaaS
+     card stack: this is a deliberate structural choice tied to the
+     brief (chain-of-custody / audit evidence), not decoration. */
+  .ledger-panel {
+    @apply border border-comb-700/30 bg-parchment;
+  }
+  .ledger-row {
+    @apply flex items-baseline justify-between border-b border-comb-700/15 py-2 text-sm last:border-b-0;
+  }
+  .stamp {
+    @apply inline-flex items-center gap-1.5 border px-2 py-0.5 text-xs font-mono;
+  }
+  .stamp-verified {
+    @apply stamp border-sage-600/40 text-sage-600;
+  }
+  .stamp-pending {
+    @apply stamp border-amber-600/40 text-amber-600;
+  }
+  .stamp-rejected {
+    @apply stamp border-rust-600/40 text-rust-600;
+  }
+}
