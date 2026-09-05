@@ -15,6 +15,8 @@ export async function middleware(request: NextRequest) {
     {
       // Inside honeychain-ae/middleware.ts
 
+// honeychain-ae/middleware.ts
+
 cookies: {
   get(name: string) {
     return request.cookies.get(name)?.value;
