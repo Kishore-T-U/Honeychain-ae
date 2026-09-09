@@ -1,12 +1,10 @@
 "use client";
 
-export const dynamic = 'force-dynamic';
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { createClient } from "@/lib/supabaseClient";
 import { useSearchParams } from "next/navigation";
 
-export default function PublicVerifyPage() {
+function VerifyContent() {
   const supabase = createClient();
   const searchParams = useSearchParams();
   const receiptId = searchParams.get("receipt");
@@ -31,7 +29,7 @@ export default function PublicVerifyPage() {
       
       if (product) setProductInfo(product);
 
-      // 2. Fetch the supply chain timeline (Apiary lots, AI health checks, etc.)
+      // 2. Fetch the supply chain timeline
       const { data: lots } = await supabase
         .from('honey_lots')
         .select('*')
@@ -126,5 +124,17 @@ export default function PublicVerifyPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function PublicVerifyPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center font-sans text-slate-600">
+        <p className="animate-pulse">Loading Verification Page...</p>
+      </div>
+    }>
+      <VerifyContent />
+    </Suspense>
   );
 }
