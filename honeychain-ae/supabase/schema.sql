@@ -107,3 +107,36 @@ create policy "Signed-in users can read harvest events"
 create policy "Signed-in users can read claims"
   on public.claims for select
   using (auth.role() = 'authenticated');
+
+-- Create Apiaries Table
+CREATE TABLE apiaries (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    beekeeper_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    cluster_name TEXT NOT NULL,
+    gps_lat DOUBLE PRECISION,
+    gps_lng DOUBLE PRECISION,
+    total_colonies INT DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create AI Evidence Table (Supports AI Risk Engine & Confidence Gating)
+CREATE TABLE hive_evidence (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    apiary_id UUID REFERENCES apiaries(id) ON DELETE CASCADE,
+    evidence_type TEXT NOT NULL CHECK (evidence_type IN ('acoustic', 'visual')),
+    confidence_score DOUBLE PRECISION NOT NULL,
+    risk_status TEXT NOT NULL CHECK (risk_status IN ('Normal', 'Inspect', 'Sample')),
+    raw_data_cid TEXT, -- IPFS CID for the audio/image file if stored off-chain
+    analyzed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create Harvest Trust Table (Stable measured mass & identity binding)
+CREATE TABLE harvest_events (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    apiary_id UUID REFERENCES apiaries(id),
+    operator_id UUID REFERENCES auth.users(id),
+    container_id TEXT NOT NULL UNIQUE,
+    measured_mass_kg DOUBLE PRECISION NOT NULL,
+    evidence_id UUID REFERENCES hive_evidence(id), -- Links harvest to prior health check
+    timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);

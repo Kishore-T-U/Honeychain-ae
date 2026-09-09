@@ -1,0 +1,37 @@
+export function HoneyChainLogo() {
+  return (
+    <div className="flex items-center gap-2">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Hexagon Node (Blockchain/Honeycomb Background) */}
+        <path 
+          d="M18 2L31.1769 9.5V24.5L18 32L4.82304 24.5V9.5L18 2Z" 
+          fill="#FEF3C7" 
+          stroke="#D97706" 
+          strokeWidth="2.5" 
+        />
+        
+        {/* Honey Drop (Positioned Above) */}
+        <path 
+          d="M18 6 C15.5 9.5 14 11.5 14 13.5 C14 15.7 15.8 17.5 18 17.5 C20.2 17.5 22 15.7 22 13.5 C22 11.5 20.5 9.5 18 6 Z" 
+          fill="#F59E0B" 
+        />
+
+        {/* Cute Vector Bee (Positioned Below) */}
+        {/* Wings */}
+        <ellipse cx="14.5" cy="20.5" rx="2.5" ry="1.5" transform="rotate(-30 14.5 20.5)" fill="white" opacity="0.9" stroke="#92400E" strokeWidth="0.5"/>
+        <ellipse cx="21.5" cy="20.5" rx="2.5" ry="1.5" transform="rotate(30 21.5 20.5)" fill="white" opacity="0.9" stroke="#92400E" strokeWidth="0.5"/>
+        
+        {/* Bee Body (Abdomen & Thorax) */}
+        <ellipse cx="18" cy="23.2" rx="3.5" ry="4.5" fill="#FBBF24" stroke="#78350F" strokeWidth="1"/>
+        {/* Body Stripes */}
+        <path d="M15.2 21.7H20.8M14.8 23.7H21.2" stroke="#78350F" strokeWidth="0.8" strokeLinecap="round"/>
+        
+        {/* Bee Head */}
+        <circle cx="18" cy="18" r="1.8" fill="#78350F"/>
+      </svg>
+      <span className="font-bold tracking-tight text-slate-900 text-lg">
+        Honey<span className="text-amber-600">Chain</span>
+      </span>
+    </div>
+  );
+}

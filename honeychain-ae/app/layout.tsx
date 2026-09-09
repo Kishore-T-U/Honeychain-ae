@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -25,6 +25,16 @@ export const metadata: Metadata = {
   title: "HoneyChain-AE",
   description:
     "Adaptive Evidence Assurance for smart beekeeping and trusted honey commerce.",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#D97706",
 };
 
 export default function RootLayout({
