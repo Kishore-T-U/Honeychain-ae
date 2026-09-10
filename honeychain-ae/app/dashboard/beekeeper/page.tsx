@@ -132,22 +132,26 @@ export default function BeekeeperDashboard() {
   const handleImageCapture = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      await uploadForAnalysis(file, "analyze-image", file.name);
+      uploadForAnalysis(file, "/api/analyze-image", file.name);
     }
   };
 
   // 3. API Transport layer
-  const uploadForAnalysis = async (fileBlob: Blob, endpoint: string, filename: string) => {
+ const uploadForAnalysis = async (fileBlob: Blob, endpoint: string, filename: string) => {
   setAnalyzing(true);
   const formData = new FormData();
   formData.append("file", fileBlob, filename);
   try {
-    // Ensure there is always a clean slash between the base URL and the endpoint
     const base = process.env.NEXT_PUBLIC_API_URL || "https://honeychain-ai-engine.onrender.com";
-const res = await fetch(`${base}${endpoint}`, {
-  method: "POST",
-  body: formData
-});
+    
+    // Automatically guarantee the correct path structure
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    const apiRoute = cleanEndpoint.startsWith('/api/') ? cleanEndpoint : `/api${cleanEndpoint}`;
+
+    const res = await fetch(`${base}${apiRoute}`, {
+      method: "POST",
+      body: formData
+    });
 
     const data = await res.json();
     setResult(data);
