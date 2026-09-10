@@ -142,14 +142,18 @@ export default function BeekeeperDashboard() {
     const formData = new FormData();
     formData.append("file", fileBlob, filename);
     try {
-      const res = await fetch(`http://localhost:8000/api/${endpoint}`, { method: "POST", body: formData });
-      const data = await res.json();
-      setResult(data);
-    } catch (error) {
-      alert("Failed to reach AI Risk Engine. Ensure FastAPI is running.");
-    } finally {
-      setAnalyzing(false);
-    }
+    const res = await fetch("/api/analyze", {
+      method: "POST",
+      body: formData
+    });
+    
+    const data = await res.json();
+    setResult(data);
+  } catch (error) {
+    alert("Failed to process AI Diagnostics.");
+  } finally {
+    setAnalyzing(false);
+  }
   };
 
 return (
