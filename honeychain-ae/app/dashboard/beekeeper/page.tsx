@@ -138,15 +138,16 @@ export default function BeekeeperDashboard() {
 
   // 3. API Transport layer
   const uploadForAnalysis = async (fileBlob: Blob, endpoint: string, filename: string) => {
-    setAnalyzing(true);
-    const formData = new FormData();
-    formData.append("file", fileBlob, filename);
-    try {
-    const res = await fetch("https://honeychain-ai-engine.onrender.com/api/analyze", {
-     method: "POST",
-     body: formData
+  setAnalyzing(true);
+  const formData = new FormData();
+  formData.append("file", fileBlob, filename);
+  try {
+    // Dynamically use the correct Render endpoint based on what was clicked
+    const res = await fetch(`https://honeychain-ai-engine.onrender.com${endpoint}`, {
+      method: "POST",
+      body: formData
     });
-    
+
     const data = await res.json();
     setResult(data);
   } catch (error) {
@@ -154,7 +155,7 @@ export default function BeekeeperDashboard() {
   } finally {
     setAnalyzing(false);
   }
-  };
+};
 
 return (
     <div className="min-h-screen bg-[#FDFBF7] p-4 md:p-8 font-sans text-slate-800">
