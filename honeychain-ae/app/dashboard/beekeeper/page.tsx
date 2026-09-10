@@ -142,9 +142,9 @@ export default function BeekeeperDashboard() {
     const formData = new FormData();
     formData.append("file", fileBlob, filename);
     try {
-    const res = await fetch("/api/analyze", {
-      method: "POST",
-      body: formData
+    const res = await fetch("https://honeychain-ai-engine.onrender.com/api/analyze", {
+     method: "POST",
+     body: formData
     });
     
     const data = await res.json();
