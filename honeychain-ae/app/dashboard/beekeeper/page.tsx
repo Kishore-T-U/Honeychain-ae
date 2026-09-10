@@ -143,13 +143,11 @@ export default function BeekeeperDashboard() {
   formData.append("file", fileBlob, filename);
   try {
     // Ensure there is always a clean slash between the base URL and the endpoint
-    const base = "https://honeychain-ai-engine.onrender.com";
-    const formattedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-    
-    const res = await fetch(`${base}${formattedEndpoint}`, {
-      method: "POST",
-      body: formData
-    });
+    const base = process.env.NEXT_PUBLIC_API_URL || "https://honeychain-ai-engine.onrender.com";
+const res = await fetch(`${base}${endpoint}`, {
+  method: "POST",
+  body: formData
+});
 
     const data = await res.json();
     setResult(data);
