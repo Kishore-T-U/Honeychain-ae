@@ -142,8 +142,11 @@ export default function BeekeeperDashboard() {
   const formData = new FormData();
   formData.append("file", fileBlob, filename);
   try {
-    // Dynamically use the correct Render endpoint based on what was clicked
-    const res = await fetch(`https://honeychain-ai-engine.onrender.com${endpoint}`, {
+    // Ensure there is always a clean slash between the base URL and the endpoint
+    const base = "https://honeychain-ai-engine.onrender.com";
+    const formattedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    
+    const res = await fetch(`${base}${formattedEndpoint}`, {
       method: "POST",
       body: formData
     });
